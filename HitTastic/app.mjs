@@ -89,21 +89,25 @@ app.delete("/delete/:id", (req, res) => {
 });
 
 // Create a Post route to add a song to the database
-// based on the title, artist, album, price and purchased parameters
-app.post("/add/:title/:artist/:album/:price/:purchased", (req, res) => {
+app.use(express.json());
+app.post("/add/song", (req, res) => {
   try {
     const statement = db.prepare(
-      "INSERT INTO wadsongs (title, artist, album, price, purchased) VALUES (?,?,?,?,?)"
+      "INSERT INTO wadsongs (title, artist, year, downloads, price, quantity) VALUES (?,?,?,?,?,?)"
     );
-    statement.run(
-      req.params.title,
-      req.params.artist,
-      req.params.album,
-      req.params.price,
-      req.params.purchased
+    //console.log(statement);
+    //console.log(req.body);
+    const info = statement.run(
+      req.body.title,
+      req.body.artist,
+      req.body.year,
+      req.body.downloads,
+      req.body.price,
+      req.body.quantity
     );
     res.json({ success: true });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error });
   }
 });
