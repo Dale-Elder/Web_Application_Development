@@ -52,6 +52,46 @@ app.get("/id/:id", (req, res) => {
   }
 });
 
+app.post("/buy/:id", (req, res) => {
+  try {
+    const statement = db.prepare(
+      "UPDATE wadsongs SET purchased = 1 WHERE id =?"
+    );
+    statement.run(req.params.id);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+app.delete("/delete/:id", (req, res) => {
+  try {
+    const statement = db.prepare("DELETE FROM wadsongs WHERE id =?");
+    statement.run(req.params.id);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+app.post("/add/:title/:artist/:album/:price/:purchased", (req, res) => {
+  try {
+    const statement = db.prepare(
+      "INSERT INTO wadsongs (title, artist, album, price, purchased) VALUES (?,?,?,?,?)"
+    );
+    statement.run(
+      req.params.title,
+      req.params.artist,
+      req.params.album,
+      req.params.price,
+      req.params.purchased
+    );
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
