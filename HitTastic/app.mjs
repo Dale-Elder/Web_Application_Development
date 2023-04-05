@@ -3,9 +3,15 @@
 import express from "express";
 import Database from "better-sqlite3";
 
+// app express() is a function that creates an express application
 const app = express();
 // Create a database connection to the database file
 const db = new Database("C:\\Users\\felix\\wadsongs.db");
+
+// app.use(express.static("public")); to serve static files
+app.use(express.static("public"));
+// app.use(express.json()); to parse JSON bodies
+app.use(express.json());
 
 // Create a (/) route that returns a "Hello World!" message
 app.get("/", (req, res) => {
@@ -89,7 +95,6 @@ app.delete("/delete/:id", (req, res) => {
 });
 
 // Create a Post route to add a song to the database
-app.use(express.json());
 app.post("/add/song", (req, res) => {
   try {
     const statement = db.prepare(
