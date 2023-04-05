@@ -63,11 +63,11 @@ app.get("/id/:id", (req, res) => {
 });
 
 // Create a Post route to buy a song from the database
-// and update the purchased column by 1
+// and reduce the quantity column by 1
 app.post("/buy/:id", (req, res) => {
   try {
     const statement = db.prepare(
-      "UPDATE wadsongs SET purchased = 1 WHERE id =?"
+      "UPDATE wadsongs SET quantity = quantity - 1 WHERE id =?"
     );
     statement.run(req.params.id);
     res.json({ success: true });
