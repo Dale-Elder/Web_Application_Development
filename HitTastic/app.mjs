@@ -4,12 +4,16 @@ import express from "express";
 import Database from "better-sqlite3";
 
 const app = express();
+// Create a database connection to the database file
 const db = new Database("C:\\Users\\felix\\wadsongs.db");
 
+// Create a (/) route that returns a "Hello World!" message
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// Create a (/artist) route that returns all artists
+// based on the artist name parameter
 app.get("/artist/:artist", (req, res) => {
   try {
     const statement = db.prepare("SELECT * FROM wadsongs WHERE artist =?");
@@ -20,6 +24,8 @@ app.get("/artist/:artist", (req, res) => {
   }
 });
 
+// Create a (/song) route that returns all songs
+// based on the song title parameter
 app.get("/song/:title", (req, res) => {
   try {
     const statement = db.prepare("SELECT * FROM wadsongs WHERE title =?");
@@ -30,6 +36,8 @@ app.get("/song/:title", (req, res) => {
   }
 });
 
+// Create a (/artist/song) route that returns all songs
+// based on the artist and song title parameters
 app.get("/artist/:artist/song/:title", (req, res) => {
   try {
     const statement = db.prepare(
@@ -42,6 +50,8 @@ app.get("/artist/:artist/song/:title", (req, res) => {
   }
 });
 
+// Create a (/id) route that returns a single song
+// based on the id parameter
 app.get("/id/:id", (req, res) => {
   try {
     const statement = db.prepare("SELECT * FROM wadsongs WHERE id =?");
@@ -52,6 +62,8 @@ app.get("/id/:id", (req, res) => {
   }
 });
 
+// Create a Post route to buy a song from the database
+// and update the purchased column by 1
 app.post("/buy/:id", (req, res) => {
   try {
     const statement = db.prepare(
@@ -64,6 +76,8 @@ app.post("/buy/:id", (req, res) => {
   }
 });
 
+// Create a Delete route to delete a song from the database
+// based on the id parameter
 app.delete("/delete/:id", (req, res) => {
   try {
     const statement = db.prepare("DELETE FROM wadsongs WHERE id =?");
@@ -74,6 +88,8 @@ app.delete("/delete/:id", (req, res) => {
   }
 });
 
+// Create a Post route to add a song to the database
+// based on the title, artist, album, price and purchased parameters
 app.post("/add/:title/:artist/:album/:price/:purchased", (req, res) => {
   try {
     const statement = db.prepare(
@@ -92,6 +108,7 @@ app.post("/add/:title/:artist/:album/:price/:purchased", (req, res) => {
   }
 });
 
+// application is listening on port 3000
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
