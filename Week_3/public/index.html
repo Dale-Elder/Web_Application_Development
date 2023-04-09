@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+
+    <!-- Script to handle search by artist -->
+    <script type="module">
+      document.getElementById("search").addEventListener("click", () => {
+        // read the value of the input field
+        const artist = document.getElementById("artist").value;
+        window.location = `http://localhost:3000/artist/${artist}`;
+      });
+    </script>
+
+    <!-- Script to handle search by title and artist -->
+    <script type="module">
+      document
+        .getElementById("searchTitleArtist")
+        .addEventListener("click", () => {
+          // read the value of the input fields
+          const artist = document.getElementById("titleArtist").value;
+          const title = document.getElementById("title").value;
+          window.location = `http://localhost:3000/artist/${artist}/song/${title}`;
+        });
+    </script>
+  </head>
+
+  <body>
+    <!-- Input field and button to search by artist -->
+    Artist: <input type="text" id="artist" />
+    <input type="button" id="search" value="Go!" />
+
+    <br />
+
+    <!-- Input fields and button to search by title and artist -->
+    Artist:<input type="text" id="titleArtist" /> Title:<input
+      type="text"
+      id="title"
+    />
+    <input type="button" id="searchTitleArtist" value="Go!" />
+
+    <br />
+  </body>
+</html>
