@@ -27,3 +27,33 @@ async function ajaxSearch(artist) {
     alert(`There was an error: ${error}`);
   }
 }
+
+document.getElementById("ht_add").addEventListener("click", async () => {
+  const newSong = {
+    title: document.getElementById("title").value,
+    artist: document.getElementById("artist").value,
+    year: document.getElementById("year").value,
+    downloads: document.getElementById("downloads").value,
+    price: document.getElementById("price").value,
+    quantity: document.getElementById("quantity").value,
+  };
+
+  try {
+    const response = await fetch("/add/song", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newSong),
+    });
+    if (response.status === 200) {
+      alert("Song added successfully!");
+    } else if (response.status === 400) {
+      alert("blank fields are not allowed");
+    } else {
+      alert(`Uknown error: code ${response.status}`);
+    }
+  } catch (error) {
+    alert(`There was an error: ${error}`);
+  }
+});
