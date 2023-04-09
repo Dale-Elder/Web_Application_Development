@@ -3,43 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <title>Document</title>
-
-    <!-- Script to handle search by artist -->
-    <script type="module">
-      document.getElementById("search").addEventListener("click", () => {
-        // read the value of the input field
-        const artist = document.getElementById("artist").value;
-        window.location = `http://localhost:3000/artist/${artist}`;
-      });
-    </script>
-
-    <!-- Script to handle search by title and artist -->
-    <script type="module">
-      document
-        .getElementById("searchTitleArtist")
-        .addEventListener("click", () => {
-          // read the value of the input fields
-          const artist = document.getElementById("titleArtist").value;
-          const title = document.getElementById("title").value;
-          window.location = `http://localhost:3000/artist/${artist}/song/${title}`;
-        });
-    </script>
+    <script type="module" src="index.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
 
   <body>
-    <!-- Input field and button to search by artist -->
-    Artist: <input type="text" id="artist" />
-    <input type="button" id="search" value="Go!" />
+    <h1>HitTastic!</h1>
 
-    <br />
+    <div class="container">
+      <!-- Input field and button to search by artist -->
+      <p>
+        Artist: <input type="text" id="artist" />
+        <input type="button" id="search" value="Go!" />
+      </p>
+      <div class="container">
+        <div class="results"></div>
+      </div>
+    </div>
 
-    <!-- Input fields and button to search by title and artist -->
-    Artist:<input type="text" id="titleArtist" /> Title:<input
-      type="text"
-      id="title"
-    />
-    <input type="button" id="searchTitleArtist" value="Go!" />
-
-    <br />
+    <div class="container">
+      <!-- Input field to buy song -->
+      <p>
+        Title: <input type="text" id="title" /> Artist:
+        <input type="text" id="buyArtist" /> Quantity:
+        <input type="text" id="quantity" />
+        <input type="button" id="buy" value="Buy!" />
+      </p>
+    </div>
   </body>
 </html>

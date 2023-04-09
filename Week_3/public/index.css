@@ -1,0 +1,43 @@
+/* Style for the page title */
+h1 {
+  font-size: 2em;
+  text-align: center;
+}
+
+/* Styles for the input fields and buttons */
+.container input[type="text"] {
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1em;
+}
+
+#search,
+#buy {
+  padding: 5px 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+#search:hover,
+#buy:hover {
+  background-color: #555;
+}
+
+/* Styles for the container divs */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px;
+}
+
+.results {
+  display: flex;
+}
