@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Document</title>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="index.js" defer></script>
     <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
 
@@ -13,11 +13,11 @@
     <div class="container">
       <!-- Input field and button to search by artist -->
       <p>
-        Artist: <input type="text" id="artist" />
-        <input type="button" id="search" value="Go!" />
+        Artist: <input type="text" id="ht_artist" />
+        <input type="button" id="ht_search" value="Go!" />
       </p>
       <div class="container">
-        <div class="results"></div>
+        <div id="results"></div>
       </div>
     </div>
 
