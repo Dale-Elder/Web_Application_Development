@@ -17,12 +17,16 @@ async function ajaxSearch(artist) {
 
     // generate an HTML table with the results
     let html =
+      // table, table-row, table-header.
       "<table><tr><th>Artist</th><th>Title</th><th>Year</th><th>Classic?</th></tr>";
+    // for each song, add a table row with the song details
     songs.forEach((song) => {
       html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${
         song.year
+        // if the song is older than 2000, add a CLASSIC HIT! message
       }</td><td>${song.year < 2000 ? "CLASSIC HIT!" : ""}</td></tr>`;
     });
+    // close the table
     html += "</table>";
 
     // update the HTML
@@ -67,5 +71,54 @@ document.getElementById("ht_add").addEventListener("click", async () => {
     // catch any errors and display them
   } catch (error) {
     alert(`There was an error: ${error}`);
+  }
+});
+
+// AJAX function to get detail based on user input option
+// between artist, title and year
+document.getElementById("search_btn").addEventListener("click", async () => {
+  const searchType = document.getElementById("selection").value;
+  // if the user selects artist, run the following code
+  if (searchType === "artist") {
+    const response = await fetch(
+      `/artist/${document.getElementById("searchText").value}`
+    );
+    const songs = await response.json();
+    let html = `<table><tr><th>Artist</th><th>Title</th><th>Year</th><th>Classic?</th></tr>`;
+    songs.forEach((song) => {
+      html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${
+        song.year
+      }</td><td>${song.year < 2000 ? "CLASSIC HIT!" : ""}</td></tr>`;
+    });
+    html += "</table>";
+    document.getElementById("searchResult").innerHTML = html;
+    // if the user selects title, run the following code
+  } else if (searchType === "title") {
+    const response = await fetch(
+      `/title/${document.getElementById("searchText").value}`
+    );
+    const songs = await response.json();
+    let html = `<table><tr><th>Artist</th><th>Title</th><th>Year</th><th>Classic?</th></tr>`;
+    songs.forEach((song) => {
+      html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${
+        song.year
+      }</td><td>${song.year < 2000 ? "CLASSIC HIT!" : ""}</td></tr>`;
+    });
+    html += "</table>";
+    document.getElementById("searchResult").innerHTML = html;
+    // if the user selects year, run the following code
+  } else if (searchType === "year") {
+    const response = await fetch(
+      `/year/${document.getElementById("searchText").value}`
+    );
+    const songs = await response.json();
+    let html = `<table><tr><th>Artist</th><th>Title</th><th>Year</th><th>Classic?</th></tr>`;
+    songs.forEach((song) => {
+      html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${
+        song.year
+      }</td><td>${song.year < 2000 ? "CLASSIC HIT!" : ""}</td></tr>`;
+    });
+    html += "</table>";
+    document.getElementById("searchResult").innerHTML = html;
   }
 });

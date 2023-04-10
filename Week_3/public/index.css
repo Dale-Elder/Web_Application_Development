@@ -1,7 +1,15 @@
-/* Style for the page title */
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Styles for the page title */
 h1 {
   font-size: 2em;
   text-align: center;
+  margin-top: 30px;
 }
 
 /* Styles for the input fields and buttons */
@@ -14,7 +22,8 @@ h1 {
 }
 
 #ht_search,
-#ht_add {
+#ht_add,
+#search_btn {
   padding: 5px 10px;
   background-color: #333;
   color: #fff;
@@ -25,19 +34,67 @@ h1 {
 }
 
 #ht_search:hover,
-#ht_add:hover {
+#ht_add:hover,
+#search_btn:hover {
   background-color: #555;
 }
 
 /* Styles for the container divs */
 .container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  margin: 20px;
+  margin-top: 20px;
+}
+
+.container p {
+  margin: 0;
+}
+
+.container > * {
+  margin: 10px;
 }
 
 .results {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.result {
+  margin: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  min-width: 200px;
+}
+
+.result h3 {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.result p {
+  margin: 0;
+  font-size: 0.9em;
+}
+
+/* Styles for the search results */
+#searchResult {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#searchResult .result {
+  background-color: #eee;
+}
+
+#searchResult .result:hover {
+  background-color: #f5f5f5;
 }

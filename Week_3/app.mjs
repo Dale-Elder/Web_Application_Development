@@ -32,12 +32,24 @@ app.get("/artist/:artist", (req, res) => {
   }
 });
 
-// Create a (/song) route that returns all songs
+// Create a (/title) route that returns all songs
 // based on the song title parameter
-app.get("/song/:title", (req, res) => {
+app.get("/title/:title", (req, res) => {
   try {
     const statement = db.prepare("SELECT * FROM wadsongs WHERE title =?");
     const results = statement.all(req.params.title);
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+// Create a (/year) route to return all songs
+// based on the year parameter provided
+app.get("/year/:year", (req, res) => {
+  try {
+    const statement = db.prepare("SELECT * FROM wadsongs WHERE year =?");
+    const results = statement.all(req.params.year);
     res.json(results);
   } catch (error) {
     res.status(500).json({ error: error });
