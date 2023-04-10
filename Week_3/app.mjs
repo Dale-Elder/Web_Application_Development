@@ -7,7 +7,7 @@ import Database from "better-sqlite3";
 const app = express();
 
 // Create a database connection to the database file
-const db = new Database("C:\\Users\\felix\\wadsongs.db");
+const db = new Database("C:\\Users\\Felix\\wadsongs.db");
 
 // app.use(express.static("public")); to serve static files
 app.use(express.static("public"));

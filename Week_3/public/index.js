@@ -15,12 +15,12 @@ async function ajaxSearch(artist) {
     // parse the JSON
     const songs = await response.json();
 
-    // loop through the array of JSON objects and add the results to the <div>
-    let html = "";
+    // generate an HTML table with the results
+    let html = "<table><tr><th>Artist</th><th>Title</th><th>Year</th></tr>";
     songs.forEach((song) => {
-      html += `Artist: ${song.artist}, Title: ${song.title}, Year: ${song.year}<br />`;
+      html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${song.year}</td></tr>`;
     });
-    // console.log(html);
+    html += "</table>";
 
     // update the HTML
     document.getElementById("results").innerHTML = html;

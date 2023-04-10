@@ -13,8 +13,8 @@ h1 {
   font-size: 1em;
 }
 
-#search,
-#buy {
+#ht_search,
+#ht_add {
   padding: 5px 10px;
   background-color: #333;
   color: #fff;
@@ -24,8 +24,8 @@ h1 {
   font-size: 1em;
 }
 
-#search:hover,
-#buy:hover {
+#ht_search:hover,
+#ht_add:hover {
   background-color: #555;
 }
 
