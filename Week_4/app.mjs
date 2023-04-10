@@ -86,13 +86,39 @@ app.get("/id/:id", (req, res) => {
 // and reduce the quantity column by 1
 app.post("/buy/:id", (req, res) => {
   try {
-    const statement = db.prepare(
-      "UPDATE wadsongs SET quantity = quantity - ? WHERE id =?"
+    const statement = db.prepare("SELECT quantity FROM wadsongs WHERE id = ?");
+    const row = statement.get(req.params.id);
+    if (!row) {
+      return res.status(404).json({ error: "Song not found" });
+    }
+    const currentQty = row.quantity;
+    const requestedQty = Number(req.query.qty);
+    if (requestedQty < 1) {
+      return res
+        .status(400)
+        .json({ error: "Quantity must be a positive integer" });
+    }
+    if (requestedQty > currentQty) {
+      return res
+        .status(400)
+        .json({ error: "Requested quantity exceeds available stock" });
+    }
+    const updateStatement = db.prepare(
+      "UPDATE wadsongs SET quantity = quantity - ? WHERE id = ? AND quantity >= ?"
     );
-    statement.run(req.query.qty, req.params.id);
+    const result = updateStatement.run(
+      requestedQty,
+      req.params.id,
+      requestedQty
+    );
+    if (result.changes === 0) {
+      return res
+        .status(400)
+        .json({ error: "Requested quantity exceeds available stock" });
+    }
     res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error.message });
   }
 });
 
