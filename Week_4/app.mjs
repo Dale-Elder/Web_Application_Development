@@ -87,9 +87,9 @@ app.get("/id/:id", (req, res) => {
 app.post("/buy/:id", (req, res) => {
   try {
     const statement = db.prepare(
-      "UPDATE wadsongs SET quantity = quantity - 1 WHERE id =?"
+      "UPDATE wadsongs SET quantity = quantity - ? WHERE id =?"
     );
-    statement.run(req.params.id);
+    statement.run(req.query.qty, req.params.id);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error });
