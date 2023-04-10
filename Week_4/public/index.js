@@ -46,6 +46,7 @@ async function ajaxSearch(artist) {
       const row = document.createElement("tr");
       // create a cell for the id
       const idCell = document.createElement("td");
+      idCell.setAttribute("id", "idCell");
       // set the cell text to the song id
       idCell.textContent = song.id;
       // create a cell for the artist
@@ -77,6 +78,12 @@ async function ajaxSearch(artist) {
       buy_btn.setAttribute("type", "button");
       buy_btn.setAttribute("value", "Buy");
       buy_btn.setAttribute("id", "buy_btn");
+      // add an event listener for the buy button
+      buy_btn.addEventListener(
+        "click",
+        // bind the song id, qty, title and artist to the buySong function
+        buySong.bind(null, song.id, qty.value, song.title, song.artist)
+      );
       // append the button to the cell
       buttonCell.appendChild(buy_btn);
       // append the cells to the row
@@ -88,30 +95,6 @@ async function ajaxSearch(artist) {
       row.appendChild(buttonCell);
       // append the row to the table
       table.appendChild(row);
-
-      // event listener for the buy button
-      buy_btn.addEventListener("click", async (event) => {
-        try {
-          // get the quantity value from the input field
-          const qtyValue = quantityCell.querySelector("#qty").value;
-          // send post request to the server with the quantity as a query parameter
-          const response = await fetch(`/buy/${song.id}?qty=${qtyValue}`, {
-            method: "POST",
-          });
-          // if the request is successful, display a success message
-          if (response.status === 200) {
-            alert(
-              `Successfully bought ${qtyValue} x ${song.title} by ${song.artist}`
-            );
-          } else {
-            // if there was an error, the JSON response will contain an error message
-            const jsonData = await response.json();
-            alert(jsonData.error);
-          }
-        } catch (error) {
-          alert(`Error with song ID ${song.id}: ${error}`);
-        }
-      });
     });
 
     // creating a new div to display the results
@@ -124,6 +107,25 @@ async function ajaxSearch(artist) {
     resultsDiv.style.display = "block";
   } catch (error) {
     alert(`There was an error: ${error}`);
+  }
+}
+
+/*
+Buy a song
+*/
+async function buySong(id, qty, title, artist) {
+  try {
+    const response = await fetch(`/buy/${id}?qty=${qty}`, {
+      method: "POST",
+    });
+    if (response.status === 200) {
+      alert(`Successfully bought ${qty} x ${title} by ${artist}`);
+    } else {
+      const jsonData = await response.json();
+      alert(jsonData.error);
+    }
+  } catch (error) {
+    alert(`Error with song ID ${id}: ${error}`);
   }
 }
 
