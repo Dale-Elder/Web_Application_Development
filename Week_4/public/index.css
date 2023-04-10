@@ -93,3 +93,15 @@ h1 {
 #results tr:hover {
   background-color: #ddd;
 }
+
+#qtyCell {
+  display: grid;
+  text-align: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+#qty {
+  width: 40px;
+  text-align: center;
+}

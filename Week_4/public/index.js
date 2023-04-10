@@ -62,6 +62,7 @@ async function ajaxSearch(artist) {
       yearCell.textContent = song.year;
       // create a cell for quantity
       const quantityCell = document.createElement("td");
+      quantityCell.setAttribute("id", "qtyCell");
       // set the cell text to the song quantity
       const qty = document.createElement("input");
       qty.setAttribute("type", "number");
