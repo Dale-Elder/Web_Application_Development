@@ -21,9 +21,18 @@ h1 {
   font-size: 1em;
 }
 
+#results {
+  padding: 5px;
+  margin: 5px;
+  font-size: 1em;
+  width: 100%;
+}
+
+/* Styles for the search button */
+#search_btn,
 #ht_search,
 #ht_add,
-#search_btn {
+#buy_btn {
   padding: 5px 10px;
   background-color: #333;
   color: #fff;
@@ -33,9 +42,10 @@ h1 {
   font-size: 1em;
 }
 
+#search_btn:hover,
 #ht_search:hover,
 #ht_add:hover,
-#search_btn:hover {
+#buy_btn:hover {
   background-color: #555;
 }
 
@@ -56,45 +66,30 @@ h1 {
   margin: 10px;
 }
 
-.results {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+/* Styles for the search results table */
+#results table {
+  border-collapse: collapse;
+  width: 100%;
 }
 
-.result {
-  margin: 10px;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 3px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  min-width: 200px;
-}
-
-.result h3 {
-  margin: 0;
+#results th {
+  background-color: #333;
+  color: #fff;
   font-size: 1.2em;
   font-weight: bold;
+  padding: 10px;
+  text-align: left;
 }
 
-.result p {
-  margin: 0;
-  font-size: 0.9em;
+#results td {
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
-/* Styles for the search results */
-#searchResult {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-#searchResult .result {
-  background-color: #eee;
-}
-
-#searchResult .result:hover {
+#results tr:nth-child(even) {
   background-color: #f5f5f5;
+}
+
+#results tr:hover {
+  background-color: #ddd;
 }

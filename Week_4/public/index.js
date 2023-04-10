@@ -1,5 +1,7 @@
 // console.log("Hello from client-side JavaScript!");
-
+/*
+Search for songs by artist
+*/
 // Make the AJAX run when we click a button
 document.getElementById("ht_search").addEventListener("click", (e) => {
   // Read the artist from the input field
@@ -15,27 +17,111 @@ async function ajaxSearch(artist) {
     // parse the JSON
     const songs = await response.json();
 
-    // generate an HTML table with the results
-    let html =
-      // table, table-row, table-header.
-      "<table><tr><th>Artist</th><th>Title</th><th>Year</th><th>Classic?</th></tr>";
-    // for each song, add a table row with the song details
-    songs.forEach((song) => {
-      html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${
-        song.year
-        // if the song is older than 2000, add a CLASSIC HIT! message
-      }</td><td>${song.year < 2000 ? "CLASSIC HIT!" : ""}</td></tr>`;
-    });
-    // close the table
-    html += "</table>";
+    // create a table to display the results
+    const table = document.createElement("table");
+    // add a caption to the table
+    const caption = document.createElement("caption");
+    // set the caption text based on the artist name
+    caption.textContent = `Search results for ${artist}`;
+    // append the caption to the table
+    table.appendChild(caption);
 
-    // update the HTML
-    document.getElementById("results").innerHTML = html;
+    // create a header row
+    const headerRow = document.createElement("tr");
+    // create a header for each column
+    const headers = ["ID", "Artist", "Title", "Year", ""];
+    // add the headers to the header row with a loop
+    headers.forEach((header) => {
+      const th = document.createElement("th");
+      th.textContent = header;
+      headerRow.appendChild(th);
+    });
+
+    // append the header row to the table
+    table.appendChild(headerRow);
+
+    // add a row for each song with a loop
+    songs.forEach((song) => {
+      // create a row
+      const row = document.createElement("tr");
+      // create a cell for the id
+      const idCell = document.createElement("td");
+      // set the cell text to the song id
+      idCell.textContent = song.id;
+      // create a cell for the artist
+      const artistCell = document.createElement("td");
+      // set the cell text to the artist name
+      artistCell.textContent = song.artist;
+      // create a cell for the title
+      const titleCell = document.createElement("td");
+      // set the cell text to the song title
+      titleCell.textContent = song.title;
+      // create a cell for the year
+      const yearCell = document.createElement("td");
+      // set the cell text to the song year
+      yearCell.textContent = song.year;
+      // create a cell for quantity
+      const quantityCell = document.createElement("td");
+      // set the cell text to the song quantity
+      quantityCell.textContent = song.quantity;
+      // create a cell for the button
+      const buttonCell = document.createElement("td");
+      // create a button
+      const buy_btn = document.createElement("input");
+      // set the button attributes
+      buy_btn.setAttribute("type", "button");
+      buy_btn.setAttribute("value", "Buy");
+      buy_btn.setAttribute("id", "buy_btn");
+      buy_btn.setAttribute("data-id", song.id);
+      // append the button to the cell
+      buttonCell.appendChild(buy_btn);
+      // append the cells to the row
+      row.appendChild(idCell);
+      row.appendChild(artistCell);
+      row.appendChild(titleCell);
+      row.appendChild(yearCell);
+      row.appendChild(quantityCell);
+      row.appendChild(buttonCell);
+      // append the row to the table
+      table.appendChild(row);
+
+      // event listener for the buy button
+      buy_btn.addEventListener("click", async (event) => {
+        try {
+          // send post request to the server
+          const response = await fetch(`/buy/${song.id}`, {
+            method: "POST",
+          });
+          // if the request is successful, display a success message
+          if (response.status === 200) {
+            alert("Song bought successfully!");
+          } else {
+            // if there was an error, the JSON response will contain an error message
+            const jsonData = await response.json();
+            alert(jsonData.error);
+          }
+        } catch (error) {
+          alert(`Error with song ID ${id}: ${error}`);
+        }
+      });
+    });
+
+    // creating a new div to display the results
+    const resultsDiv = document.getElementById("results");
+    // clear the div
+    resultsDiv.innerHTML = "";
+    // append the table to the div
+    resultsDiv.appendChild(table);
+    // display the div
+    resultsDiv.style.display = "block";
   } catch (error) {
     alert(`There was an error: ${error}`);
   }
 }
 
+/*
+Adding a new song to the database
+*/
 // Make the AJAX run when we click a button
 document.getElementById("ht_add").addEventListener("click", async () => {
   // Read new song details from the input fields
@@ -74,51 +160,108 @@ document.getElementById("ht_add").addEventListener("click", async () => {
   }
 });
 
-// AJAX function to get detail based on user input option
-// between artist, title and year
+/*
+Search for songs by artist, title or year using a dropdown menu
+*/
+
 document.getElementById("search_btn").addEventListener("click", async () => {
   const searchType = document.getElementById("selection").value;
   // if the user selects artist, run the following code
   if (searchType === "artist") {
-    const response = await fetch(
-      `/artist/${document.getElementById("searchText").value}`
-    );
-    const songs = await response.json();
-    let html = `<table><tr><th>Artist</th><th>Title</th><th>Year</th><th>Classic?</th></tr>`;
-    songs.forEach((song) => {
-      html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${
-        song.year
-      }</td><td>${song.year < 2000 ? "CLASSIC HIT!" : ""}</td></tr>`;
-    });
-    html += "</table>";
-    document.getElementById("searchResult").innerHTML = html;
+    ajaxSearch(document.getElementById("searchText").value);
     // if the user selects title, run the following code
   } else if (searchType === "title") {
     const response = await fetch(
       `/title/${document.getElementById("searchText").value}`
     );
     const songs = await response.json();
-    let html = `<table><tr><th>Artist</th><th>Title</th><th>Year</th><th>Classic?</th></tr>`;
-    songs.forEach((song) => {
-      html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${
-        song.year
-      }</td><td>${song.year < 2000 ? "CLASSIC HIT!" : ""}</td></tr>`;
+    const table = document.createElement("table");
+    const caption = document.createElement("caption");
+    caption.textContent = "Search Results";
+    table.appendChild(caption);
+
+    const headerRow = document.createElement("tr");
+    const headers = ["Artist", "Title", "Year", ""];
+    headers.forEach((header) => {
+      const th = document.createElement("th");
+      th.textContent = header;
+      headerRow.appendChild(th);
     });
-    html += "</table>";
+
+    table.appendChild(headerRow);
+
+    songs.forEach((song) => {
+      const row = document.createElement("tr");
+      const artistCell = document.createElement("td");
+      artistCell.textContent = song.artist;
+      const titleCell = document.createElement("td");
+      titleCell.textContent = song.title;
+      const yearCell = document.createElement("td");
+      yearCell.textContent = song.year;
+      const buttonCell = document.createElement("td");
+      const buy_btn = document.createElement("input");
+      buy_btn.setAttribute("type", "button");
+      buy_btn.setAttribute("value", "Buy");
+      buy_btn.setAttribute("id", "buy_btn");
+      buttonCell.appendChild(buy_btn);
+      row.appendChild(artistCell);
+      row.appendChild(titleCell);
+      row.appendChild(yearCell);
+      row.appendChild(buttonCell);
+      table.appendChild(row);
+    });
+
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+    resultsDiv.appendChild(table);
+    resultsDiv.style.display = "block";
     document.getElementById("searchResult").innerHTML = html;
+
     // if the user selects year, run the following code
   } else if (searchType === "year") {
     const response = await fetch(
       `/year/${document.getElementById("searchText").value}`
     );
     const songs = await response.json();
-    let html = `<table><tr><th>Artist</th><th>Title</th><th>Year</th><th>Classic?</th></tr>`;
-    songs.forEach((song) => {
-      html += `<tr><td>${song.artist}</td><td>${song.title}</td><td>${
-        song.year
-      }</td><td>${song.year < 2000 ? "CLASSIC HIT!" : ""}</td></tr>`;
+    const table = document.createElement("table");
+    const caption = document.createElement("caption");
+    caption.textContent = "Search Results";
+    table.appendChild(caption);
+
+    const headerRow = document.createElement("tr");
+    const headers = ["Artist", "Title", "Year", ""];
+    headers.forEach((header) => {
+      const th = document.createElement("th");
+      th.textContent = header;
+      headerRow.appendChild(th);
     });
-    html += "</table>";
-    document.getElementById("searchResult").innerHTML = html;
+
+    table.appendChild(headerRow);
+
+    songs.forEach((song) => {
+      const row = document.createElement("tr");
+      const artistCell = document.createElement("td");
+      artistCell.textContent = song.artist;
+      const titleCell = document.createElement("td");
+      titleCell.textContent = song.title;
+      const yearCell = document.createElement("td");
+      yearCell.textContent = song.year;
+      const buttonCell = document.createElement("td");
+      const buy_btn = document.createElement("input");
+      buy_btn.setAttribute("type", "button");
+      buy_btn.setAttribute("value", "Buy");
+      buy_btn.setAttribute("id", "buy_btn");
+      buttonCell.appendChild(buy_btn);
+      row.appendChild(artistCell);
+      row.appendChild(titleCell);
+      row.appendChild(yearCell);
+      row.appendChild(buttonCell);
+      table.appendChild(row);
+    });
+
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+    resultsDiv.appendChild(table);
+    resultsDiv.style.display = "block";
   }
 });
