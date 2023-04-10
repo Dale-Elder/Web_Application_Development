@@ -29,7 +29,7 @@ async function ajaxSearch(artist) {
     // create a header row
     const headerRow = document.createElement("tr");
     // create a header for each column
-    const headers = ["ID", "Artist", "Title", "Year", ""];
+    const headers = ["ID", "Artist", "Title", "Year", "Quantity", ""];
     // add the headers to the header row with a loop
     headers.forEach((header) => {
       const th = document.createElement("th");
@@ -72,7 +72,6 @@ async function ajaxSearch(artist) {
       buy_btn.setAttribute("type", "button");
       buy_btn.setAttribute("value", "Buy");
       buy_btn.setAttribute("id", "buy_btn");
-      buy_btn.setAttribute("data-id", song.id);
       // append the button to the cell
       buttonCell.appendChild(buy_btn);
       // append the cells to the row
